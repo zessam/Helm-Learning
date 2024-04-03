@@ -1,15 +1,16 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ include "webapp-chart.fullname" . }}
+  name: mywebapp
+  namespace: default
   labels:
-    {{- include "webapp-chart.labels" . | nindent 4 }}
+    app: mywebapp
 spec:
-  type: {{ .Values.service.type }}
   ports:
-    - port: {{ .Values.service.port }}
-      targetPort: http
-      protocol: TCP
-      name: http
+  - port: 80
+    protocol: TCP
+    name: flask
   selector:
-    {{- include "webapp-chart.selectorLabels" . | nindent 4 }}
+    app: mywebapp
+    tier: frontend
+  type: NodePort
